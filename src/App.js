@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Container, Row, Col, Modal, Image, Navbar, Nav } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col, Modal, Image, Navbar, Nav, Stack } from 'react-bootstrap';
 import axios from 'axios';
 
 function App() {
@@ -18,6 +18,8 @@ function App() {
   //   console.log(response.data);
   //   setSelectedData(response.data)
   // }
+
+  const mobileMode = window.innerWidth <= 768
 
   const cardOnClick = (item) => {
     // setSelectedData(item)
@@ -42,65 +44,76 @@ function App() {
       </Navbar>
 
       <Container>
-        <Row>
-          <Col xs={'auto'} sm={'auto'} md={'auto'} lg={'auto'}>
-            <Card style={{backgroundColor: '#FDCEDF', margin: '20px', padding: '20px', width: '500px', height: '300px'}}>
-              <Card.Title>Makeup</Card.Title>
-              <Card.Body>
-                <Row>
-                  <Col xs={6}>
-                    <Image src='test.jpg' height={'187pc'} width={'187px'} />
-                  </Col>
-                  <Col xs={6}>
-                    <Image src='test.jpg' height={'187px'} width={'187px'} />
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={'auto'} sm={'auto'} md={'auto'} lg={'auto'}>
-            <Card style={{backgroundColor: '#FDCEDF', margin: '20px', padding: '20px', width: '500px', height: '300px'}}>
-              <Card.Title>Makeup</Card.Title>
-              <Card.Body>
-                <Row>
-                  <Col xs={6}>
-                    <Image src='test.jpg' height={'187px'} width={'187px'} />
-                  </Col>
-                  <Col xs={6}>
-                    <Image src='test.jpg' height={'187px'} width={'187px'} />
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-            {data.map((item) => (
-              <Col xs={8} sm={7} md={6} lg={4}>
-                <Card style={{ height: '513px', margin: '16px', padding: '32px', maxWidth: '300px' }}>
-                  <Card.Img variant="top" sizes='400px' src={item.image_link} alt='gambar' />
-                  <Card.Body style={{margin: '2px', padding: '2px'}}>
-                    <Card.Title className='text-truncate'>{item.name}</Card.Title>
-                    <Card.Text className='text-truncate'>
-                      <div>
-                      Brand: {item.brand ? item.brand : 'No Brand'}
-                      </div>
-                      <div>
-                      Product Type: {item.product_type}
-                      </div>
-                      <div>
-                      Category: {item.category}
-                      </div>
-                      <div>
-                      Price: {item.price}
-                      </div>
-                    </Card.Text>
-                    <Button variant="primary" onClick={cardOnClick}>Details</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-              </Row>
+        <Stack gap={5} style={{alignItems: 'center'}}>
+          <Stack direction={mobileMode ? 'vertical' : 'horizontal'} style={{justifyContent: 'space-evenly', alignItems: 'center'}} gap={4}>
+            {/* <Col xs={'auto'} sm={'auto'} md={'auto'} lg={'auto'}> */}
+              <Card style={{backgroundColor: '#FDCEDF', marginTop: '20px', padding: '20px', width: '500px', height: '300px'}}>
+                <Card.Title style={{alignSelf: 'center'}}>Categories</Card.Title>
+                <Card.Body>
+                  <Row>
+                    <Col xs={6}>
+                      <Image src='test.jpg' height={'187px'} width={'187px'} style={{borderRadius: '8px'}}/>
+                    </Col>
+                    <Col xs={6}>
+                      <Image src='test.jpg' height={'187px'} width={'187px'} style={{borderRadius: '8px'}}/>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            {/* </Col> */}
+            {/* <Col xs={'auto'} sm={'auto'} md={'auto'} lg={'auto'}> */}
+              <Card style={{backgroundColor: '#FDCEDF', marginTop: '20px', padding: '20px', width: '500px', height: '300px'}}>
+                <Card.Title style={{alignSelf: 'center'}}>Brands</Card.Title>
+                <Card.Body>
+                  <Row>
+                    <Col xs={6}>
+                      <Image src='test.jpg' height={'187px'} width={'187px'} style={{borderRadius: '8px'}}/>
+                    </Col>
+                    <Col xs={6}>
+                      <Image src='test.jpg' height={'187px'} width={'187px'} style={{borderRadius: '8px'}}/>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            {/* </Col> */}
+          </Stack>
+          <Row style={{alignSelf: 'center'}}>
+              {data.map((item) => (
+                <Col xs={8} sm={7} md={6} lg={4}>
+                  <Card onClick={cardOnClick} style={{ backgroundColor: '#FDCEDF', height: '513px', margin: '16px', padding: '32px', maxWidth: '300px' }}>
+                    <Card.Img variant="top" sizes='400px' src={item.image_link} alt='gambar' style={{borderRadius: '8px'}} />
+                    <Card.Body style={{margin: '2px', padding: '2px'}}>
+                      {/* <Card.Title className='text-truncate'>{item.name}</Card.Title> */}
+                      <Card.Text>
+                        {/* <div>
+                        Brand: {item.brand ? item.brand : 'No Brand'}
+                        </div>
+                        <div>
+                        Product Type: {item.product_type}
+                        </div>
+                        <div>
+                        Category: {item.category}
+                        </div>
+                        <div>
+                        Price: {item.price}
+                        </div> */}
+                        <Stack gap={2}>
+                          <Stack>
+                            <p>{item.name}</p>
+                            <Stack direction='horizontal'>
+                              <p><strong>Category: </strong>{item.category}</p>
+                            </Stack>
+                          </Stack>
+                          <p><strong>${item.price}</strong></p>
+                        </Stack>
+                      </Card.Text>
+                      {/* <Button variant="primary" onClick={cardOnClick}>Details</Button> */}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+          </Row>
+        </Stack>
 
               <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton>
