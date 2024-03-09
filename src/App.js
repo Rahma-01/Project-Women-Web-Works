@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Container, Row, Col, Modal, Image, Navbar, Nav, Carousel, Form, NavDropdown } from 'react-bootstrap';
 import axios from 'axios';
+import { BiSearch } from "react-icons/bi";
+import { BsBag } from "react-icons/bs";
 
 function App() {
   const [data, setData] = useState([])
@@ -11,7 +13,7 @@ function App() {
     const response = await axios.get('https://makeup-api.herokuapp.com/api/v1/products.json?product_tags=Vegan&product_type=blush')
     console.log(response.data);
     setData(response.data)
-  }
+  };
 
   // const getDataById = async (id) => {
   //   const response = await axios.get(`https://makeup-api.herokuapp.com/api/v1/products/${id}`)
@@ -43,78 +45,17 @@ function App() {
               navbarScroll
             >
               <NavDropdown title="Categories" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action1">Blush</NavDropdown.Item>
-                <NavDropdown.Item href="#action2">Bronze</NavDropdown.Item>
-                <NavDropdown.Item href="#action3">Eyebrow</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Eyeliner</NavDropdown.Item>
-                <NavDropdown.Item href="#action5">Eyeshadow</NavDropdown.Item>
-                <NavDropdown.Item href="#action6">Foundation</NavDropdown.Item>
-                <NavDropdown.Item href="#action7">Lip liner</NavDropdown.Item>
-                <NavDropdown.Item href="#action8">Lipstick</NavDropdown.Item>
-                <NavDropdown.Item href="#action9">Mascara</NavDropdown.Item>
-                <NavDropdown.Item href="#action10">Nail polish</NavDropdown.Item>
-              </NavDropdown>
-
-
-              {/* const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-                <a
-                  href=""
-                  ref={ref}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onClick(e);
-                  }}
-                >
-                  {children}
-                  &#x25bc;
-                </a>
-              ));
-
-              const CustomMenu = React.forwardRef(
-                ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-                  const [value, setValue] = useState('');
-
-                  return (
-                    <div
-                      ref={ref}
-                      style={style}
-                      className={className}
-                      aria-labelledby={labeledBy}
-                    >
-                      <Form.Control
-                        autoFocus
-                        className="mx-3 my-2 w-auto"
-                        placeholder="Type to filter..."
-                        onChange={(e) => setValue(e.target.value)}
-                        value={value}
-                      />
-                      <ul className="list-unstyled">
-                        {React.Children.toArray(children).filter(
-                          (child) =>
-                            !value || child.props.children.toLowerCase().startsWith(value),
-                        )}
-                      </ul>
-                    </div>
-                  );
-                },
-              );
-
-              render(
-                <Dropdown>
-                  <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                    Custom toggle
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu as={CustomMenu}>
-                    <Dropdown.Item eventKey="1">Red</Dropdown.Item>
-                    <Dropdown.Item eventKey="2">Blue</Dropdown.Item>
-                    <Dropdown.Item eventKey="3" active>
-                      Orange
-                    </Dropdown.Item>
-                    <Dropdown.Item eventKey="1">Red-Orange</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>,
-              ); */}
+              <NavDropdown.Item href="#action1">Blush</NavDropdown.Item>
+              <NavDropdown.Item href="#action2">Bronze</NavDropdown.Item>
+              <NavDropdown.Item href="#action3">Eyebrow</NavDropdown.Item>
+              <NavDropdown.Item href="#action4">Eyeliner</NavDropdown.Item>
+              <NavDropdown.Item href="#action5">Eyeshadow</NavDropdown.Item>
+              <NavDropdown.Item href="#action6">Foundation</NavDropdown.Item>
+              <NavDropdown.Item href="#action7">Lip liner</NavDropdown.Item>
+              <NavDropdown.Item href="#action8">Lipstick</NavDropdown.Item>
+              <NavDropdown.Item href="#action9">Mascara</NavDropdown.Item>
+              <NavDropdown.Item href="#action10">Nail polish</NavDropdown.Item>
+              </NavDropdown>              
 
               <NavDropdown title="Brands" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action11">almay</NavDropdown.Item>
@@ -127,7 +68,10 @@ function App() {
                 <NavDropdown.Item href="#action18">butter london</NavDropdown.Item>
                 <NavDropdown.Item href="#action19">c'est moi</NavDropdown.Item>
                 <NavDropdown.Item href="#action20">cargo cosmetics</NavDropdown.Item>
-                <NavDropdown.Item href="#action21">china glaze</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action21">other brands</NavDropdown.Item>
+
+                {/* <NavDropdown.Item href="#action21">china glaze</NavDropdown.Item>
                 <NavDropdown.Item href="#action22">clinique</NavDropdown.Item>
                 <NavDropdown.Item href="#action23">coastal classic creation</NavDropdown.Item>
                 <NavDropdown.Item href="#action24">colourpop</NavDropdown.Item>
@@ -173,26 +117,30 @@ function App() {
                 <NavDropdown.Item href="#action64">w3llpeople</NavDropdown.Item>
                 <NavDropdown.Item href="#action65">wet n wild</NavDropdown.Item>
                 <NavDropdown.Item href="#action70">zorah</NavDropdown.Item>
-                <NavDropdown.Item href="#action71">zorah biocosmetiques</NavDropdown.Item>
+                <NavDropdown.Item href="#action71">zorah biocosmetiques</NavDropdown.Item> */}
               </NavDropdown>
 
-              <Nav.Link href="#action2">Contact Us</Nav.Link>
+              <Nav.Link href="#action72">Contact Us</Nav.Link>
             </Nav>
 
             <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
-                className="me-2"
                 aria-label="Search"
               />
+              <Button variant="light" className="me-2">
+                <BiSearch />
+              </Button>
             </Form>
-
-            {/* <Image src='bag.svg'/> */}
-            {/* <i class="bi bi-heart-fill"></i> */}
-
-            <Button variant="outline-secondary" className="me-2">Log In</Button>{' '}
-            <Button variant="primary" className="me-2">Sign Up</Button>{' '}
+            
+            <Button variant="outline-dark" className="me-2">
+              <BsBag />
+            </Button>
+            
+            <Button variant="outline-primary" className="me-2">Login</Button>{' '}
+            <Button variant="primary">Sign Up</Button>{' '}
+            
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -201,35 +149,20 @@ function App() {
         <Carousel style={{paddingTop:'38px', paddingBottom:'38px'}}>
             <Carousel.Item>
               <center>
-                <Image src='mountain.jpg' width={'1080px'} height={'518px'}/>
+                <Image src='carousel1.png' width={'100%'} />
               </center>
-
-              <Carousel.Caption>
-                <h3>First slide label</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-              </Carousel.Caption>
             </Carousel.Item>
             
             <Carousel.Item>
               <center>
-                <Image src='mountain.jpg' width={'1180px'} height={'518px'}/>
+                <Image src='carousel2.png' width={'100%'}/>
               </center>
-              <Carousel.Caption>
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </Carousel.Caption>
             </Carousel.Item>
             
             <Carousel.Item>
               <center>
-                <Image src='mountain.jpg' width={'1080px'} height={'518px'}/>
+                <Image src='carousel3.png' width={'100%'}/>
               </center>
-              <Carousel.Caption>
-                <h3>Third slide label</h3>
-                <p>
-                  Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                </p>
-              </Carousel.Caption>
             </Carousel.Item>
         </Carousel>
 
@@ -274,18 +207,10 @@ function App() {
                     <Card.Body style={{margin: '2px', padding: '2px'}}>
                       <Card.Title className='text-truncate'>{item.name}</Card.Title>
                       <Card.Text className='text-truncate'>
-                        <div>
-                        Brand: {item.brand ? item.brand : 'No Brand'}
-                        </div>
-                        <div>
-                        Product Type: {item.product_type}
-                        </div>
-                        <div>
-                        Category: {item.category}
-                        </div>
-                        <div>
-                        Price: {item.price}
-                        </div>
+                        Brand: {item.brand ? item.brand : 'No Brand'}<br />
+                        Product Type: {item.product_type}<br />
+                        Category: {item.category}<br />
+                        Price: {item.price}<br />
                       </Card.Text>
                       <Button variant="primary" onClick={cardOnClick}>Details</Button>
                     </Card.Body>
