@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Container, Row, Col, Modal, Image, Navbar, Nav, Carousel, Form, NavDropdown } from 'react-bootstrap';
+import { Button, Stack, Card, Container, Row, Col, Modal, Image, Navbar, Nav, Carousel, Form, NavDropdown } from 'react-bootstrap';
 import axios from 'axios';
-// import { BiSearch } from "react-icons/bi";
-import { BsBag } from "react-icons/bs";
+import { BiSearch } from "react-icons/bi";
+import {BsBag} from 'react-icons/bs'
 import Search from './components/Search';
 
 function App() {
   const [data, setData] = useState([])
-  // const [selectedData, setSelectedData] = useState({})
+  const [selectedData, setSelectedData] = useState({})
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth)
   const [showModal, setShowModal] = useState(false)
 
   const getData = async () => {
@@ -16,18 +17,32 @@ function App() {
     setData(response.data)
   };
 
-  // const getDataById = async (id) => {
-  //   const response = await axios.get(`https://makeup-api.herokuapp.com/api/v1/products/${id}`)
-  //   console.log(response.data);
-  //   setSelectedData(response.data)
-  // }
-
-  const mobileMode = window.innerWidth <= 768
-
-  const cardOnClick = (item) => {
-    // setSelectedData(item)
-    setShowModal(true)
+  const getDataById = async (id) => {
+    const response = await data.find((item) => item.id === id)
+    console.log(response);
+    setSelectedData(response)
   }
+
+  const cardOnClick = (id) => {
+    setShowModal(true);
+    // Wrap the function call inside another function to prevent it from being called on every render
+    const fetchData = async () => {
+      await getDataById(id);
+    };
+    fetchData();
+  };
+
+  const handleResize = () => {
+    setInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     getData()
@@ -171,66 +186,60 @@ function App() {
         </Carousel>
 
         <Container>
-          <Row>
-            <Col xs={'auto'} sm={'auto'} md={'auto'} lg={'auto'}>
-              <Card style={{backgroundColor: '#FDCEDF', margin: '20px', padding: '20px', width: '500px', height: '300px'}}>
-                <Card.Title>Makeup</Card.Title>
-                <Card.Body>
-                  <Row>
-                    <Col xs={6}>
-                      <Image src='test.jpg' height={'187pc'} width={'187px'} />
-                    </Col>
-                    <Col xs={6}>
-                      <Image src='test.jpg' height={'187px'} width={'187px'} />
-                    </Col>
-                  </Row>
-                </Card.Body>
+        <Stack direction={innerWidth > 768 ? 'horizontal' : 'vertical'} style={{justifyContent: 'space-evenly', alignItems: 'center'}} gap={4}>
+              <Card style={{backgroundColor: '#FDCEDF', marginTop: '20px'}}>
+                <Container>
+                  <Card.Title style={{alignSelf: 'center'}}>Categories</Card.Title>
+                  <Card.Body>
+                    <Row>
+                      <Col xs={6}>
+                        <Image src='test.jpg' height={'200rem'} width={'auto'} style={{borderRadius: '8px'}}/>
+                      </Col>
+                      <Col xs={6}>
+                        <Image src='test.jpg' height={'200rem'} width={'auto'} style={{borderRadius: '8px'}}/>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Container>
               </Card>
-            </Col>
-            <Col xs={'auto'} sm={'auto'} md={'auto'} lg={'auto'}>
-              <Card style={{backgroundColor: '#FDCEDF', margin: '20px', padding: '20px', width: '500px', height: '300px'}}>
-                <Card.Title>Makeup</Card.Title>
-                <Card.Body>
-                  <Row>
-                    <Col xs={6}>
-                      <Image src='test.jpg' height={'187px'} width={'187px'} />
-                    </Col>
-                    <Col xs={6}>
-                      <Image src='test.jpg' height={'187px'} width={'187px'} />
-                    </Col>
-                  </Row>
-                </Card.Body>
+              <Card style={{backgroundColor: '#FDCEDF', marginTop: '20px'}}>
+                <Container>
+                  <Card.Title style={{alignSelf: 'center'}}>Brands</Card.Title>
+                  <Card.Body>
+                    <Row>
+                      <Col xs={6}>
+                        <Image src='test.jpg' height={'200rem'} width={'auto'} style={{borderRadius: '8px'}}/>
+                      </Col>
+                      <Col xs={6}>
+                        <Image src='test.jpg' height={'200rem'} width={'auto'} style={{borderRadius: '8px'}}/>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Container>
               </Card>
-            </Col>
-          </Row>
-          <Row>
+          </Stack>
+          <Row style={{alignSelf: 'center'}}>
               {data.map((item) => (
                 <Col xs={8} sm={7} md={6} lg={4}>
-                  <Card style={{ height: '513px', margin: '16px', padding: '32px', maxWidth: '300px' }}>
-                    <Card.Img variant="top" sizes='400px' src={item.image_link} alt='gambar' />
+                  <Card onClick={() => cardOnClick(item.id)} style={{ backgroundColor: '#FDCEDF', height: '450px', margin: '16px', padding: '32px', maxWidth: '300px' }}>
+                    <Card.Img variant="top" height={'200px'} width={'200px'} src={item.image_link} alt='gambar' style={{borderRadius: '8px'}} />
                     <Card.Body style={{margin: '2px', padding: '2px'}}>
-                      <Card.Title className='text-truncate'>{item.name}</Card.Title>
-                      <Card.Text className='text-truncate'>
-                        Brand: {item.brand ? item.brand : 'No Brand'}<br />
-                        Product Type: {item.product_type}<br />
-                        Category: {item.category}<br />
-                        Price: {item.price}<br />
+                      <Card.Text>
+                        <Stack gap={2}>
+                          <Stack>
+                            <p>{item.name}</p>
+                            <Stack direction='horizontal'>
+                              <p><strong>Category: </strong>{item.category}</p>
+                            </Stack>
+                          </Stack>
+                          <p><strong>${item.price}</strong></p>
+                        </Stack>
                       </Card.Text>
-                      <Button variant="primary" onClick={cardOnClick}>Details</Button>
                     </Card.Body>
                   </Card>
                 </Col>
               ))}
-                </Row>
-
-                <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Halo test test</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    Lorem ipsum dolor sit amet
-                  </Modal.Body>
-                </Modal>
+          </Row>
         </Container>
       </main>
 
@@ -241,8 +250,33 @@ function App() {
               </p>
         </Container>
       </footer>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                  <Modal.Header style={{backgroundColor: '#F9F5F6'}} closeButton>
+                    <Modal.Title>{selectedData?.name}</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body style={{backgroundColor: '#F9F5F6'}}>
+                    <Container>
+                      <Row>
+                        <Col xs={12} md={8} lg={4}>
+                          <Card>
+                            <Card.Img variant="top" src={selectedData?.image_link} alt='gambar' style={{borderRadius: '8px'}} />
+                            <Card.Body>
+                              <Card.Title>{selectedData?.brand ? selectedData?.brand : selectedData?.name}</Card.Title>
+
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                        <Col xs={12} md={8} lg={8}>
+                          {selectedData?.description}
+                        </Col>
+                      </Row>
+                    </Container>
+                    
+                  </Modal.Body>
+      </Modal>
     </>
-  );
+ );
 }
 
 export default App;
+ 
